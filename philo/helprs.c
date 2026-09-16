@@ -1,0 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helprs.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stmuller <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/16 01:27:30 by stmuller          #+#    #+#             */
+/*   Updated: 2026/09/16 01:27:39 by stmuller         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "philomilo.h"
+
+bool	is_digit(char c)
+{
+	return (c >= '0' && '9' >= c);
+}
+
+bool	is_legal(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (false);
+	while (str[i])
+	{
+		if (!is_digit(str[i]))
+			return (false);
+		i++;
+		if (i >= 12)
+			return (false);
+	}
+	return (true);
+}
+
+int	philotoi(char *str)
+{
+	long	ret;
+
+	ret = 0;
+	while (*str)
+	{
+		ret = (ret * 10) + (*str - '0');
+		str++;
+	}
+	return (ret);
+}
