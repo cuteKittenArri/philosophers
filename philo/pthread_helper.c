@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philomilo.h"
+#include "func.h"
 
 void	destroyer(t_env *env, char *e_msg, int counter)
 {

@@ -9,7 +9,7 @@
 /*   Updated: 2026/09/16 01:27:39 by stmuller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philomilo.h"
+#include "func.h"
 
 bool	is_digit(char c)
 {
