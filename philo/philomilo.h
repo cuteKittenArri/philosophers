@@ -13,10 +13,9 @@
 #ifndef PHILOMILO_H
 # define PHILOMILO_H
 
-#include <bits/pthreadtypes.h>
-#include <pthread.h>
-#include <stdbool.h>
-#include <stddef.h>
+# include <pthread.h>
+# include <stdbool.h>
+# include <stddef.h>
 
 # define P_MAX 200
 
@@ -28,9 +27,9 @@ typedef struct	s_times
 {
 	size_t	start;
 	size_t	die;
+	size_t	nom;
 	size_t	sleep;
-	size_t	meal;
-	size_t	last_meal;
+	size_t	last_nom;
 }	t_times;
 
 typedef struct	s_mutexehexe
@@ -53,7 +52,7 @@ typedef struct	s_env
 {
 	t_mutex	print_mtx;
 	t_mutex	nom_mtx;
-	t_mutex	*knife;
+	t_mutex	*knifes;
 	t_philo	*philos;
 	int		philo_count;
 }	t_env;

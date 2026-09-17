@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pthread_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stmuller <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/16 01:27:48 by stmuller          #+#    #+#             */
-/*   Updated: 2026/09/16 01:27:50 by stmuller         ###   ########.fr       */
+/*   Created: 2026/09/17 02:29:40 by stmuller          #+#    #+#             */
+/*   Updated: 2026/09/17 02:29:42 by stmuller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "func.h"
+#include "philomilo.h"
 
-void	arg_checker(char **argv)
+void	destroyer(t_env *env, char *e_msg, int counter)
 {
-	if (!is_legal(argv[0]) || !is_legal(argv[1]) || !is_legal(argv[2])
-	     || !is_legal(argv[3]))
-		ende("Illegal ARG");
-}
-
-int	main(int argc, char **argv)
-{
-	t_env		env;
-	t_mutex		knifes[P_MAX];
-	t_philo		philos[P_MAX];
-
-	arg_checker(argv + 1);
-	init_env(&env, knifes, philos);
-	init_knifes(&env, knifes, philotoi(argv[1]));
-	init_philos(TODO);
+	while (--counter >= 0)
+		pthread_mutex_destroy(&env->knifes[counter]);
+	pthread_mutex_destroy(&env->nom_mtx);
+	pthread_mutex_destroy(&env->print_mtx);
 }

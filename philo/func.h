@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   func.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stmuller <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/16 01:27:48 by stmuller          #+#    #+#             */
-/*   Updated: 2026/09/16 01:27:50 by stmuller         ###   ########.fr       */
+/*   Created: 2026/09/17 01:39:41 by stmuller          #+#    #+#             */
+/*   Updated: 2026/09/17 01:39:43 by stmuller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "func.h"
+#ifndef FUNC_H
+# define FUNC_H
 
-void	arg_checker(char **argv)
-{
-	if (!is_legal(argv[0]) || !is_legal(argv[1]) || !is_legal(argv[2])
-	     || !is_legal(argv[3]))
-		ende("Illegal ARG");
-}
+# include "philomilo.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
 
-int	main(int argc, char **argv)
-{
-	t_env		env;
-	t_mutex		knifes[P_MAX];
-	t_philo		philos[P_MAX];
+void	ende(char *e_msg);
+int		philotoi(char *str);
+bool	is_legal(char *str);
+void	destroyer(t_env *env, char *e_msg, int counter);
+void	init_env(t_env *env, t_mutex *knifes, t_philo *philos);
+void	init_knifes(t_env *env, t_mutex *knifes, int counter);
 
-	arg_checker(argv + 1);
-	init_env(&env, knifes, philos);
-	init_knifes(&env, knifes, philotoi(argv[1]));
-	init_philos(TODO);
-}
+#endif

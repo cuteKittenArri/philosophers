@@ -46,3 +46,20 @@ int	philotoi(char *str)
 	}
 	return (ret);
 }
+
+size_t	ft_strlen(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ende(char *e_msg)
+{
+	if (e_msg)
+		write(1, e_msg, ft_strlen(e_msg));
+	exit (1);
+}
