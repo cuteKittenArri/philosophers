@@ -15,14 +15,14 @@
 
 # include "philomilo.h"
 # include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
+# include <stdio.h>
+# include <sys/time.h>
 
-void	ende(char *e_msg);
-int		philotoi(char *str);
+int		ende(char *e_msg);
+long	philotoi(char *str);
 bool	is_legal(char *str);
-void	destroyer(t_env *env, char *e_msg, int counter);
-void	init_env(t_env *env, t_mutex *knifes, t_philo *philos);
-void	init_knifes(t_env *env, t_mutex *knifes, int counter);
+int		destroyer(t_env *env, char *e_msg, int counter);
+int		init_env(t_env *env, t_mutex *knifes, t_philo *philos);
+int		init_knifes(t_env *env, t_mutex *knifes);
 
 #endif

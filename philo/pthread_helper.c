@@ -12,10 +12,13 @@
 
 #include "func.h"
 
-void	destroyer(t_env *env, char *e_msg, int counter)
+int	destroyer(t_env *env, char *e_msg, int counter)
 {
 	while (--counter >= 0)
 		pthread_mutex_destroy(&env->knifes[counter]);
 	pthread_mutex_destroy(&env->nom_mtx);
 	pthread_mutex_destroy(&env->print_mtx);
+	if (counter == -69)
+		return (0);
+	return (ende(e_msg));
 }

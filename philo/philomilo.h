@@ -22,39 +22,40 @@
 typedef pthread_t		t_id;
 typedef pthread_mutex_t	t_mutex;
 typedef unsigned char	t_philo_id;
+typedef struct s_env	t_env;
 
-typedef struct	s_times
+typedef struct s_times
 {
 	size_t	start;
 	size_t	die;
 	size_t	nom;
 	size_t	sleep;
-	size_t	last_nom;
 }	t_times;
-
-typedef struct	s_mutexehexe
-{
-	t_mutex	*print_mtx;
-	t_mutex	*nom_mtx;
-	t_mutex	*l_mtx;
-	t_mutex	*r_mtx;
-}	t_muthexe;
 
 typedef struct s_philo
 {
+	t_id		thread_id;
 	t_philo_id	id;
-	t_muthexe	muthexe;
 	t_times		times;
-	int			hungry;
+	t_mutex		r_mtx;
+	t_mutex		l_mtx;
+	size_t		last_nom;
+	int			ate;
+	t_env		*env;
 }	t_philo;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	t_mutex	print_mtx;
 	t_mutex	nom_mtx;
+	t_mutex	died_mtx;
 	t_mutex	*knifes;
 	t_philo	*philos;
+	t_times		times;
 	int		philo_count;
+	int		hungry;
+	int		n_philo;
+	bool	died;
 }	t_env;
 
 #endif

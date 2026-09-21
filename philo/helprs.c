@@ -28,13 +28,11 @@ bool	is_legal(char *str)
 		if (!is_digit(str[i]))
 			return (false);
 		i++;
-		if (i >= 12)
-			return (false);
 	}
 	return (true);
 }
 
-int	philotoi(char *str)
+long	philotoi(char *str)
 {
 	long	ret;
 
@@ -42,6 +40,8 @@ int	philotoi(char *str)
 	while (*str)
 	{
 		ret = (ret * 10) + (*str - '0');
+		if (ret > 2147483647)
+			return (-1);
 		str++;
 	}
 	return (ret);
@@ -57,9 +57,9 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-void	ende(char *e_msg)
+int	ende(char *e_msg)
 {
 	if (e_msg)
-		write(1, e_msg, ft_strlen(e_msg));
-	exit (1);
+		write(2, e_msg, ft_strlen(e_msg));
+	return (1);
 }
