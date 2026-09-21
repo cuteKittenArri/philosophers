@@ -34,11 +34,10 @@ typedef struct s_times
 
 typedef struct s_philo
 {
-	t_id		thread_id;
 	t_philo_id	id;
 	t_times		times;
-	t_mutex		r_mtx;
-	t_mutex		l_mtx;
+	t_mutex		*r_mtx;
+	t_mutex		*l_mtx;
 	size_t		last_nom;
 	int			ate;
 	t_env		*env;
@@ -51,7 +50,7 @@ typedef struct s_env
 	t_mutex	died_mtx;
 	t_mutex	*knifes;
 	t_philo	*philos;
-	t_times		times;
+	t_times	times;
 	int		philo_count;
 	int		hungry;
 	int		n_philo;

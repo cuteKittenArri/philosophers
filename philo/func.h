@@ -24,5 +24,11 @@ bool	is_legal(char *str);
 int		destroyer(t_env *env, char *e_msg, int counter);
 int		init_env(t_env *env, t_mutex *knifes, t_philo *philos);
 int		init_knifes(t_env *env, t_mutex *knifes);
+void	init_philos(t_env *env, t_philo *philos, t_mutex *knifes);
+size_t	get_time(void);
+void	eepy(size_t ms);
+bool	died(t_env *env);
+void	death(t_env *env);
+void	printer(t_philo *philo, char *msg);
 
 #endif

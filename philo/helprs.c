@@ -60,6 +60,9 @@ size_t	ft_strlen(char *str)
 int	ende(char *e_msg)
 {
 	if (e_msg)
+	{
 		write(2, e_msg, ft_strlen(e_msg));
+		write(2, "\n", 1);
+	}
 	return (1);
 }

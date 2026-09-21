@@ -17,19 +17,20 @@ int	arg_checker(int argc, char **argv)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	if (argc != 5 && argc != 6)
 		return (ende("Wrong argc"));
-	while (i < argc -1)
+	while (++i < argc)
 	{
 		if (!is_legal(argv[i]))
 			return (ende("Illegal ARG"));
 	}
 	return (0);
 }
+
 int	parsing(t_env *env, int argc, char **argv)
 {
-	if (philotoi(argv[1]) > P_MAX || philotoi(argv[1]) == -1)
+	if (philotoi(argv[1]) > P_MAX || philotoi(argv[1]) < 1)
 		return (ende("Invalid Philo amount"));
 	env->n_philo = philotoi(argv[1]);
 	if (philotoi(argv[2]) <= 0 || philotoi(argv[3]) <= 0 || philotoi(argv[4]) <= 0)
@@ -41,7 +42,7 @@ int	parsing(t_env *env, int argc, char **argv)
 		env->hungry = philotoi(argv[5]);
 	else
 		env->hungry = -1;
-	return (0);	
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -54,8 +55,10 @@ int	main(int argc, char **argv)
 		return (1);
 	if (parsing(&env, argc, argv))
 		return (1);
-	init_env(&env, knifes, philos);
-	init_knifes(&env, knifes);
-	init_philos(&env, philos, knifes)
-	
+	if (init_env(&env, knifes, philos))
+		return (1);
+	if (init_knifes(&env, knifes))
+		return (1);
+	init_philos(&env, philos, knifes);
+	sim(&env);
 }
