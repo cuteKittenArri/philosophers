@@ -1,5 +1,6 @@
 #include "func.h"
 #include "philomilo.h"
+#include <pthread.h>
 #include <time.h>
 
 void	grab_em(t_philo *philo)
@@ -33,22 +34,33 @@ void	mahlzeit(t_philo *philo)
 	pthread_mutex_unlock(philo->r_mtx);
 }
 
+void	lonely(t_philo *philo)
+{
+	pthread_mutex_lock(philo->l_mtx);
+	printer(philo, "has taken a knife(scary)");
+	eepy(philo->times.die);
+	pthread_mutex_unlock(philo->l_mtx);
+}
+
 void	*routine(void *me)
 {
 	t_philo *philo;
 
 	philo = (t_philo *)me;
-	
+	if (philo->env->n_philo == 1)
+		return (lonely(philo), NULL);
 	if (philo->id % 2 == 1)
 		eepy(50);
 	while (!died(philo->env))
 	{
 		mahlzeit(philo);
-		if (philo->ate >= philo->env->hungry)
+		if (philo->env->hungry != -1 && philo->ate >= philo->env->hungry)
 			break ;
 		printer(philo, "is sleeping");
 		eepy(philo->times.sleep);
 		printer(philo, "is thinking");
+		if (philo->id % 2 == 1)
+			eepy(philo->times.nom * 2 - philo->times.sleep);
 	}
 	return (NULL);
 }

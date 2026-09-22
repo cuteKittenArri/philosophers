@@ -40,6 +40,8 @@ int	parsing(t_env *env, int argc, char **argv)
 	env->times.sleep = philotoi(argv[4]);
 	if (argc == 6 && philotoi(argv[5]) > 0)
 		env->hungry = philotoi(argv[5]);
+	else if (argc == 6)
+		return (ende("Invalid Nom amount"));
 	else
 		env->hungry = -1;
 	return (0);
