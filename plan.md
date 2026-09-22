@@ -1030,3 +1030,70 @@ With B.1 and B.2:
 | none — normal end | 0 | 0 | 0 |
 | `print_mtx`, `nom_mtx` or `died_mtx` | 1 | 0 | 0 |
 | `knifes[0]`, `knifes[2]` or `knifes[4]` | 1 | 0 | 0 |
+
+---
+
+## Appendix C — Answers to `questions.txt`
+
+*Appended 2026-09-22, against commit `6f29fd2`. Both answers were checked on a scratch
+copy; `philo/` was not touched.*
+
+### C.1 — Why lock `nom_mtx` for `last_nom` and `ate`, if they belong to one philo?
+
+Because what matters is how many **threads** touch the memory, not who owns it. The
+philosopher's thread writes these two fields; the monitor (Step 5) reads them from its own
+thread. Two threads, at least one writing, nothing ordering them: that is a data race. The
+subject forbids data races, and C makes them undefined behaviour — the compiler may keep
+`last_nom` in a register or reorder the write, so the monitor can act on a stale value.
+
+You're right that data used by only one thread needs no lock. That's why the routine can
+read `philo->ate` unlocked (it's the only writer), and why nothing needs the lock *yet*:
+the monitor doesn't exist.
+
+**Both sides must lock.** The writer's unlock, followed by the monitor's lock, is what
+guarantees the monitor sees the new value. One side alone guarantees nothing.
+
+Measured with ThreadSanitizer, `./philo 5 800 200 200 3`, your `mahlzeit` plus a test
+monitor:
+
+| writer (`mahlzeit`) | reader (monitor) | data races |
+|---|---|---|
+| locked (your code) | locked | 0 |
+| unlocked | locked | 2 |
+| locked | unlocked | 2 |
+
+The two races are exactly `routines.c:27` (`last_nom`) and `routines.c:28` (`ate++`).
+
+### C.2 — Why is the `if` in `grab_em()` enough to prevent deadlock?
+
+It makes everyone take the lower-addressed knife first. `knifes` is one array, so a lower
+address means a lower index. Only philosopher 5, whose right knife wraps around to
+`knifes[0]`, takes the `else` branch — so it takes `knifes[0]` first, just like
+philosopher 1.
+
+A deadlock needs a circle in which each philosopher holds one knife and waits for the
+next one's. Under the rule, everyone waits for a knife with a *higher* address than the
+one they hold. Going round the circle, the addresses would have to keep rising and still
+arrive back at the start — K₁ < K₂ < … < K₁ — which is impossible. No circle, no
+deadlock.
+
+Concretely: without the `if`, all five grab their left knife and wait forever for the
+right one. With it, 1 and 5 compete for `knifes[0]` first; the loser holds nothing, so the
+circle has a gap.
+
+Measured in the worst case (20 ms between first and second knife, no start stagger),
+`./philo 5 800 200 200 3`, 3 runs each:
+
+| `grab_em` | result |
+|---|---|
+| without the `if` | hung 3/3 — each took one knife, then all blocked in `pthread_mutex_lock` |
+| with the `if` (yours) | finished 3/3, all 15 meals |
+
+Comparing pointers with `<` is only defined inside one array — which `knifes` is.
+
+What the `if` does **not** do:
+
+- **One philosopher:** `l_mtx == r_mtx`, so the `else` locks the same mutex twice and
+  hangs — `./philo 1 800 200 200` never ends. It needs its own path; see `review.md` R2.
+- **Starvation:** it guarantees that someone can eat, not that everyone eats in time. Odd
+  counts currently starve philosophers 1 and 5; see `review.md` R4.
