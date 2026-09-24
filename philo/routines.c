@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <time.h>
 
-void	grab_em(t_philo *philo)
+static void	grab_em(t_philo *philo)
 {
 	if (philo->l_mtx < philo->r_mtx)
 	{
@@ -21,7 +21,7 @@ void	grab_em(t_philo *philo)
 	}
 }
 
-void	mahlzeit(t_philo *philo)
+static void	mahlzeit(t_philo *philo)
 {
 	grab_em(philo);
 	pthread_mutex_lock(&philo->env->nom_mtx);
@@ -34,7 +34,7 @@ void	mahlzeit(t_philo *philo)
 	pthread_mutex_unlock(philo->r_mtx);
 }
 
-void	lonely(t_philo *philo)
+static void	lonely(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_mtx);
 	printer(philo, "has taken a knife(scary)");

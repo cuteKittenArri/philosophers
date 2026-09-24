@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "func.h"
+#include "philomilo.h"
+#include <pthread.h>
 
 int	destroyer(t_env *env, char *e_msg, int counter)
 {
@@ -44,9 +46,17 @@ bool	died(t_env *env)
 	return (oof);
 }
 
-void	death(t_env *env)
+static void	death(t_env *env)
 {
 	pthread_mutex_lock(&env->died_mtx);
 	env->died = true;
 	pthread_mutex_unlock(&env->died_mtx);
+}
+
+void	print_death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->env->print_mtx);
+	printf("%lu %d died\n", get_time() - philo->times.start, philo->id);
+	death(philo->env);
+	pthread_mutex_unlock(&philo->env->print_mtx);
 }

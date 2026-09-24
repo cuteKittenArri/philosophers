@@ -28,7 +28,9 @@ void	init_philos(t_env *env, t_philo *philos, t_mutex *knifes);
 size_t	get_time(void);
 void	eepy(size_t ms);
 bool	died(t_env *env);
-void	death(t_env *env);
 void	printer(t_philo *philo, char *msg);
+void	*routine(void *me);
+void	print_death(t_philo *philo);
+void	sim(t_env *env);
 
 #endif

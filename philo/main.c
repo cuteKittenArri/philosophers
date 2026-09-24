@@ -12,6 +12,7 @@
 
 #include "func.h"
 #include "philomilo.h"
+#include <time.h>
 
 int	arg_checker(int argc, char **argv)
 {
@@ -63,4 +64,5 @@ int	main(int argc, char **argv)
 		return (1);
 	init_philos(&env, philos, knifes);
 	sim(&env);
+	destroyer(&env, NULL, env.n_philo);
 }
