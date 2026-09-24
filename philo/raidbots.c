@@ -28,7 +28,7 @@ static void	death_checker(t_env *env)
 	while (full < env->n_philo)
 	{
 		pthread_mutex_lock(&env->nom_mtx);
-		if (env->hungry != -1 || env->philos[i].ate < env->hungry)
+		if (env->hungry == -1 || env->philos[i].ate < env->hungry)
 		{
 			alive = u_good(&env->philos[i]);
 			if (!alive)
