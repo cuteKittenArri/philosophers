@@ -31,7 +31,7 @@ void	printer(t_philo *philo, char *msg)
 	size_t	now;
 
 	pthread_mutex_lock(&philo->env->print_mtx);
-	now = get_time() - philo->times.start;
+	now = get_time() - philo->env->times.start;
 	if (!died(philo->env))
 		printf("%lu %d %s\n", now, philo->id, msg);
 	pthread_mutex_unlock(&philo->env->print_mtx);

@@ -21,15 +21,22 @@ static void	death_checker(t_env *env)
 {
 	int		i;
 	bool	alive;
+	int		full;
 
+	full = 0;
 	i = 0;
-	while (true)
+	while (full < env->n_philo)
 	{
 		pthread_mutex_lock(&env->nom_mtx);
-		alive = u_good(&env->philos[i]);
+		if (env->hungry != -1 || env->philos[i].ate < env->hungry)
+		{
+			alive = u_good(&env->philos[i]);
+			if (!alive)
+				return (print_death(&env->philos[i]));
+		}
+		else
+			full++;
 		pthread_mutex_unlock(&env->nom_mtx);
-		if (!alive)
-			return (print_death(&env->philos[i]));
 		i = (i + 1) % env->n_philo;
 	}
 }
