@@ -50,7 +50,13 @@ void	*routine(void *me)
 	if (philo->env->n_philo == 1)
 		return (lonely(philo), NULL);
 	if (philo->id % 2 == 1)
-		eepy(50);
+	{
+		printer(philo, "is sleeping");
+		eepy(philo->times.sleep);
+		printer(philo, "is thinking");
+		if (philo->env->n_philo % 2 == 1)
+			eepy(philo->times.nom * 2 - philo->times.sleep);
+	}
 	while (!died(philo->env))
 	{
 		mahlzeit(philo);
