@@ -30,9 +30,13 @@ static void	death_checker(t_env *env)
 		pthread_mutex_lock(&env->nom_mtx);
 		if (env->hungry == -1 || env->philos[i].ate < env->hungry)
 		{
+			full = 0;
 			alive = u_good(&env->philos[i]);
 			if (!alive)
-				return (print_death(&env->philos[i]));
+			{
+				print_death(&env->philos[i]);
+				return ((void)pthread_mutex_unlock(&env->nom_mtx));
+			}
 		}
 		else
 			full++;
@@ -56,11 +60,9 @@ void	sim(t_env *env)
 		i++;
 	}
 	death_checker(env);
-	i = 0;
-	while (i < env->n_philo)
+	while (--i >= 0)
 	{
 		pthread_join(threads[i], NULL);
-		i++;
 	}
 	return ;
 }

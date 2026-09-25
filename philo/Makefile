@@ -1,6 +1,6 @@
 NAME := philo
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -MMD -MP -O3 -march=native
+CFLAGS := -Wall -Werror -Wextra -MMD -MP -g
 SRCS := main.c ini_mini.c raidbots.c routines.c helprs.c pthread_helprs.c time_helprs.c
 OBJS := $(SRCS:.c=.o)
 DEPS := $(SRCS:.c=.d)

@@ -56,7 +56,7 @@ static void	death(t_env *env)
 void	print_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->env->print_mtx);
-	printf("%lu %d died\n", get_time() - philo->times.start, philo->id);
+	printf("%lu %d died\n", get_time() - philo->env->times.start, philo->id);
 	death(philo->env);
 	pthread_mutex_unlock(&philo->env->print_mtx);
 }

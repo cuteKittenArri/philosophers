@@ -59,7 +59,7 @@ void	*routine(void *me)
 		printer(philo, "is sleeping");
 		eepy(philo->times.sleep);
 		printer(philo, "is thinking");
-		if (philo->id % 2 == 1)
+		if (philo->env->n_philo % 2 == 1)
 			eepy(philo->times.nom * 2 - philo->times.sleep);
 	}
 	return (NULL);
